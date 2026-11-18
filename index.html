@@ -1,32 +1,249 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Documentação Flavin</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f4f5f7;color:#22262d;font:15px system-ui,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid #d4d8df;background:#fff;border-radius:10px;padding:10px 14px;color:#222}button.primary{background:#292d34;color:#fff}button.danger{color:#b42318}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}aside{background:#252930;color:white;padding:28px 20px}aside h2{margin:0}aside p{color:#b5bbc5;font-size:12px}aside nav{margin-top:35px;color:#d4d9e0}main{padding:30px;max-width:1400px;width:100%;margin:auto}.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.card{background:white;border:1px solid #e1e4e9;border-radius:16px;padding:20px;box-shadow:0 5px 25px #1217210a;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:12px}.doc{cursor:pointer}.doc:hover{border-color:#7d8796}input,select,textarea{width:100%;border:1px solid #d5d9df;border-radius:9px;padding:11px;background:white;color:#222}textarea{min-height:110px}label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}.muted{color:#737b88}.pill{background:#edf0f3;padding:5px 9px;border-radius:20px;font-size:12px}.field{display:grid;grid-template-columns:1fr 2fr auto;gap:8px;margin:8px 0}.hidden{display:none}.alert{padding:12px;border-radius:9px;background:#eef0f3;white-space:pre-wrap}.error{background:#ffece9;color:#a3261a}h1{margin:0}small{color:#737b88}@media(max-width:800px){.app{display:block}aside{padding:16px}aside nav{display:none}main{padding:15px}.field{grid-template-columns:1fr}.row{align-items:stretch}}</style></head><body>
-<div class="app"><aside><h2>◈ Documentação Flavin</h2><p>Base técnica · GitHub</p><nav>▤ Documentações<br><br>⌕ Pesquisa<br><br>◷ Histórico GitHub</nav></aside><main>
-<div class="row"><div><h1>Documentações</h1><p class="muted">Seu conhecimento técnico, versionado no GitHub.</p></div><button class="primary" id="new">+ Nova documentação</button></div>
-<section class="card"><div class="row"><b>Modo local — sem token</b><span id="status" class="pill">Pronto</span></div><p class="muted">Crie, edite, pesquise e exporte suas documentações TXT. Os rascunhos ficam salvos neste navegador, sem sincronização automática com o GitHub. Não use computadores compartilhados para dados sensíveis.</p><div class="row"><button id="importBtn">Importar TXT</button><button id="exportAll">Exportar todos (JSON)</button><button id="clearLocal" class="danger">Limpar dados locais</button><input id="importFile" type="file" accept=".txt,.json,application/json,text/plain" multiple class="hidden"></div><p><a href="https://github.com/flaviohenrique20044-hub/arquivos" target="_blank" rel="noopener noreferrer">Abrir repositório privado arquivos no GitHub</a></p><div id="message" class="alert">Sem token e sem erro de CORS. Para enviar documentos ao GitHub, exporte o TXT e faça upload no repositório privado.</div></section>
-<section id="listing"><div class="row"><input id="search" style="max-width:520px" placeholder="Pesquisar título, equipamento, texto ou campo..."><span id="count" class="muted"></span></div><div id="docs" class="grid"></div></section>
-<section id="editor" class="card hidden"><div class="row"><h2 id="editTitle">Nova documentação</h2><button id="back">Voltar</button></div><label>Título</label><input id="title" placeholder="Ex.: OLT Huawei MA5800"><label>Categoria</label><input id="category" placeholder="OLT, Roteadores, Procedimentos..."><label>Descrição e procedimentos</label><textarea id="description" placeholder="Informações, comandos, observações..."></textarea><h3>Campos personalizados</h3><div id="fields"></div><button id="addField">+ Adicionar campo</button><div class="row" style="margin-top:22px"><div><button class="primary" id="save">Salvar neste navegador</button> <button id="exportOne">Baixar TXT</button> <button class="danger" id="remove">Excluir documento</button></div><small id="commit"></small></div></section>
-</main></div>
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta das Trufas</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5efe6;color:#312019;font:15px system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:23px}header strong{font-size:19px}header time{color:#725345;text-align:right}.hero{position:relative;overflow:hidden;color:#fff6e9;background:radial-gradient(ellipse at top right,#915035,#4a271f 68%);padding:clamp(24px,5vw,52px);border-radius:26px}.hero h1{font-size:clamp(42px,9vw,92px);letter-spacing:-.075em;line-height:1;margin:10px 0 24px;font-family:Georgia,serif}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:750;color:#f3c3a2}.progress-info{display:flex;justify-content:space-between;gap:10px}progress{display:block;width:100%;height:12px;margin:10px 0;appearance:none;border:0;border-radius:12px;background:#fff2;overflow:hidden}progress::-webkit-progress-bar{background:#fff2}progress::-webkit-progress-value{background:#ffd29e}progress::-moz-progress-bar{background:#ffd29e}.summary,.grid{display:grid;gap:16px;margin-top:16px}.summary{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.card{background:#fffaf4;border:1px solid #e8d9cc;border-radius:20px;padding:22px;min-width:0}.summary strong{display:block;margin-top:7px;font-size:clamp(17px,3vw,28px);overflow-wrap:anywhere}h2{margin:0 0 8px;font-family:Georgia,serif;font-size:26px}p{margin:0 0 14px;color:#71574a}.hero p{color:#f8ddca;margin:0}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px}label{font-size:13px;font-weight:650;display:block}input,select,button{font:inherit}input,select{display:block;width:100%;min-width:0;padding:9px;border:1px solid #d9c4b3;border-radius:9px;background:#fffdf9;color:inherit;margin-top:4px}button{background:#713d2b;color:white;border:0;border-radius:10px;padding:9px 13px;cursor:pointer;font-weight:650}button:hover{background:#512b20}button.secondary{background:#f1e4d8;color:#583020}button.danger{background:#f4e4dc;color:#742e21}button:disabled{opacity:.45;cursor:default}.ingredient{padding:12px 0;border-top:1px solid #ecdfd3}.ingredient:last-child{margin-bottom:10px}.actions{display:flex;gap:8px;flex-wrap:wrap}.estimate{margin:13px 0;padding:10px;background:#f7ede0;border-radius:10px;overflow-wrap:anywhere}.history{margin-top:16px}.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;text-align:left;white-space:nowrap}th,td{padding:10px;border-bottom:1px solid #ecdfd3}th{font-size:13px;color:#71574a}footer{padding:18px 3px;color:#71574a}#status{min-height:1.5em;margin-top:10px;font-weight:650}#recipes button{margin-top:7px}#recipes{margin-top:12px}@media(max-width:690px){main{padding:14px}.grid{grid-template-columns:1fr}.card{padding:15px}.summary{gap:7px}.summary .card{padding:10px}.summary span{font-size:12px}}
+summary{cursor:pointer;font-weight:750;font-size:18px}details[open]>summary{margin-bottom:16px}.forecast{margin-top:16px}.forecast label{max-width:300px}.forecast p{margin:12px 0 0}.indicators{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0 0}.indicators dt{color:#71574a}.indicators dd{font-size:24px;font-weight:750;margin:4px 0}.hero h1{font-variant-numeric:lining-nums}summary:focus-visible{outline:2px solid #713d2b}
+</style>
+<main>
+<header><strong>Meta das Trufas</strong><time id="today"></time></header>
+<section class="hero" aria-labelledby="goal"><div class="eyebrow">Meta de lucro acumulado</div><h1 id="goal">R$ 200.000</h1><div class="progress-info"><span id="earned"></span><strong id="percent"></strong></div><progress id="progress" max="20000000" value="0" aria-label="Progresso da meta"></progress><p id="remaining"></p></section>
+<section class="summary" aria-label="Resumo">
+<div class="card"><span>Receita das vendas</span><strong id="revenue"></strong></div>
+<div class="card"><span>Custo das trufas vendidas</span><strong id="cost"></strong></div>
+<div class="card"><span>Trufas vendidas hoje</span><strong id="units"></strong></div>
+</section>
+<section class="forecast card"><h2>Quantas trufas faltam?</h2><label>Sabor para a projeção<select id="flavor"></select></label><dl class="indicators"><div><dt>Custo de uma trufa</dt><dd id="oneCost"></dd></div><div><dt>Preço de venda</dt><dd id="onePrice"></dd></div><div><dt>Lucro por trufa</dt><dd id="oneProfit"></dd></div><div><dt>Trufas restantes</dt><dd id="needed"></dd></div></dl><p id="forecastNote"></p></section>
+<div class="grid">
+<details class="card"><summary>Registrar venda</summary><p>Lance uma venda ou o total do dia para um sabor ao mesmo preço.</p>
+<form id="sale"><div class="fields"><label>Data da venda<input type="date" name="date" required></label><label>Sabor<select name="recipe" required></select></label><label>Unidades vendidas<input name="quantity" type="number" step="1" min="1" max="1000000" required></label><label>Preço por trufa (R$)<input name="price" type="number" step=".01" min=".01" max="1000000" required></label></div>
+<div id="saleEstimate" class="estimate"></div><button id="register">Registrar venda</button></form></details>
+<details class="card"><summary>Receitas e preços</summary><p>Informe o preço da embalagem e a quantidade usada no lote. Inclua chocolate, cada recheio e a embalagem da trufa.</p>
+<form id="recipe"><div class="fields"><label>Sabor<input name="name" required maxlength="80" placeholder="Ex. Maracujá"></label><label>Rendimento do lote<input name="yield" type="number" required min="1" max="1000000" step="1" placeholder="Trufas aproveitáveis"></label></div>
+<label>Preço de venda previsto por trufa (R$)<input name="expected" type="number" min=".01" step=".01" max="1000000" required></label><div id="ingredients"></div><div class="actions"><button type="button" class="secondary" id="add">+ Ingrediente</button><button type="button" class="secondary" id="cancel" hidden>Cancelar edição</button><button>Salvar receita</button></div><div class="estimate" id="recipeEstimate"></div></form><div id="recipes"></div></details>
+</div>
+<details class="card history"><summary>Histórico de vendas</summary><div class="scroll"><table><thead><tr><th>Data</th><th>Sabor</th><th>Unid.</th><th>Receita</th><th>Custo</th><th>Lucro</th><th>Ações</th></tr></thead><tbody id="history"></tbody></table></div></details>
+<div id="status" role="status"></div><footer>Os registros ficam neste navegador. O lucro acompanha os custos cadastrados para as unidades vendidas. Inclua todas as despesas aplicáveis na receita para refletir o custo de produção.</footer>
+</main>
+<template id="ingredient"><div class="ingredient"><div class="fields">
+<label>Ingrediente<input name="item" required maxlength="80"></label><label>Preço pago (R$)<input name="paid" type="number" min="0" max="1000000" step=".01" required></label>
+<label>Quantidade comprada<input name="bought" type="number" min=".001" max="1000000" step=".001" required></label><label>Quantidade usada<input name="used" type="number" min=".001" max="1000000" step=".001" required></label>
+<label>Unidade das quantidades<select name="unit"><option value="g">g</option><option value="kg">kg</option><option value="ml">ml</option><option value="l">L</option><option value="un">unidades</option></select></label></div><button type="button" class="secondary remove">Remover ingrediente</button></div></template>
 <script>
-const $=id=>document.getElementById(id), KEY='flavin-docs-v2';let records=[],current=null;
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function msg(s,error=false){$('message').textContent=s;$('message').className='alert'+(error?' error':'')}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(records))}catch(e){msg('Não foi possível salvar no navegador: '+e.message,true);throw e}}
-function render(){let q=$('search').value.toLowerCase();let arr=records.filter(d=>JSON.stringify(d).toLowerCase().includes(q));$('count').textContent=arr.length+' documentos';$('docs').innerHTML=arr.map(d=>'<article class="card doc" data-id="'+esc(d.id)+'"><span class="pill">'+esc(d.category||'Sem categoria')+'</span><h3>'+esc(d.title||'Sem título')+'</h3><p class="muted">'+esc((d.description||'').slice(0,140))+'</p><small>'+esc(d.updatedAt||'')+'</small></article>').join('')||'<div class="card muted">Nenhuma documentação encontrada. Clique em Nova documentação para começar.</div>';$('docs').querySelectorAll('.doc').forEach(el=>el.onclick=()=>edit(records.find(d=>d.id===el.dataset.id)))}
-function field(k='',v=''){let el=document.createElement('div');el.className='field';el.innerHTML='<input class="fieldkey" placeholder="Nome do campo"><textarea class="fieldval" placeholder="Valor" style="min-height:45px"></textarea><button type="button">Remover</button>';el.querySelector('.fieldkey').value=k;el.querySelector('.fieldval').value=v;el.querySelector('button').onclick=()=>el.remove();$('fields').appendChild(el)}
-function edit(d=null){current=d;$('listing').classList.add('hidden');$('editor').classList.remove('hidden');$('editTitle').textContent=d?'Editar documentação':'Nova documentação';$('title').value=d?.title||'';$('category').value=d?.category||'';$('description').value=d?.description||'';$('fields').innerHTML='';Object.entries(d?.fields||{}).forEach(([k,v])=>field(k,v));$('commit').textContent='';$('remove').style.display=d?'':'none'}
-function collect(){let title=$('title').value.trim();if(!title)throw Error('Informe o título.');let fields={};$('fields').querySelectorAll('.field').forEach(el=>{let k=el.querySelector('.fieldkey').value.trim();if(k)fields[k]=el.querySelector('.fieldval').value});return{id:current?.id||crypto.randomUUID(),title,category:$('category').value.trim(),description:$('description').value,fields,createdAt:current?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()}}
-function download(name,content,type='text/plain;charset=utf-8'){let a=document.createElement('a'),url=URL.createObjectURL(new Blob([content],{type}));a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
-function save(){let d=collect();let i=records.findIndex(x=>x.id===d.id);if(i>=0)records[i]=d;else records.push(d);persist();render();edit(d);$('commit').textContent='Salvo localmente às '+new Date().toLocaleTimeString('pt-BR');msg('Documento salvo neste navegador. Para backup, baixe o TXT e envie ao GitHub privado.');return d}
-$('new').onclick=()=>edit();
-$('back').onclick=()=>{$('editor').classList.add('hidden');$('listing').classList.remove('hidden')};
-$('addField').onclick=()=>field();
-$('search').oninput=render;
-$('save').onclick=()=>{try{save()}catch(e){alert(e.message)}};
-$('exportOne').onclick=()=>{try{let d=save();download(d.id+'.txt',JSON.stringify(d,null,2))}catch(e){alert(e.message)}};
-$('remove').onclick=()=>{if(!current||!confirm('Excluir o documento salvo neste navegador?'))return;records=records.filter(x=>x.id!==current.id);persist();render();$('back').click()};
-$('importBtn').onclick=()=>$('importFile').click();
-$('importFile').onchange=async()=>{let count=0;for(let file of $('importFile').files){try{let value=JSON.parse(await file.text());let docs=Array.isArray(value)?value:[value];for(let d of docs){if(!d||typeof d!=='object'||typeof d.title!=='string')throw Error('Formato inválido');let clean={id:typeof d.id==='string'?d.id:crypto.randomUUID(),title:d.title,category:String(d.category||''),description:String(d.description||''),fields:d.fields&&typeof d.fields==='object'&&!Array.isArray(d.fields)?d.fields:{},createdAt:d.createdAt||new Date().toISOString(),updatedAt:d.updatedAt||new Date().toISOString()};let i=records.findIndex(x=>x.id===clean.id);if(i>=0)records[i]=clean;else records.push(clean);count++}}catch(e){alert('Erro ao importar '+file.name+': '+e.message)}}persist();render();msg(count+' documento(s) importado(s).');$('importFile').value=''};
-$('exportAll').onclick=()=>download('documentacao-flavin-backup.json',JSON.stringify(records,null,2),'application/json;charset=utf-8');
-$('clearLocal').onclick=()=>{if(confirm('Excluir TODOS os documentos salvos neste navegador? Faça backup antes.')){records=[];persist();render();msg('Dados locais excluídos.')}};
-try{let data=JSON.parse(localStorage.getItem(KEY)||'[]');records=Array.isArray(data)?data:[]}catch(e){msg('Falha ao ler dados locais: '+e.message,true)}render();
-</script></body></html>
+const el = id => document.getElementById(id);
+const target = 20000000;
+const key = 'meta-trufas-v1';
+const cash = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+const dateLabel = new Intl.DateTimeFormat('pt-BR',{dateStyle:'full',timeZone:'America/Sao_Paulo'});
+const dateKey = new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Sao_Paulo'});
+const money = cents => cash.format(cents / 100);
+const cents = value => Math.round(Number(value) * 100);
+const recipeForm = el('recipe'), saleForm = el('sale');
+const recipeSelect = saleForm.elements.recipe;
+let state = {recipes:[], sales:[]};
+let editing = null;
+let today = '';
+try {
+  const stored = localStorage.getItem(key);
+  if (stored) state = JSON.parse(stored);
+} catch {
+  el('status').textContent = 'Não foi possível carregar os registros deste navegador.';
+}
+function save(next, message) {
+  try { localStorage.setItem(key, JSON.stringify(next)); }
+  catch {
+    el('status').textContent = 'O navegador não conseguiu salvar os registros.';
+    return false;
+  }
+  state = next;
+  render();
+  el('status').textContent = message;
+  return true;
+}
+function updateDate() {
+  const now = new Date();
+  const current = dateKey.format(now);
+  if (today === current) return;
+  if (!saleForm.elements.date.value || saleForm.elements.date.value === today) saleForm.elements.date.value = current;
+  today = current;
+  saleForm.elements.date.max = today;
+  el('today').dateTime = today;
+  el('today').textContent = dateLabel.format(now);
+  render();
+}
+function addIngredient(item = {}) {
+  const row = el('ingredient').content.firstElementChild.cloneNode(true);
+  for (const name of ['item','paid','bought','used','unit']) {
+    if (item[name] !== undefined) row.querySelector('[name='+name+']').value = item[name];
+  }
+  row.querySelector('.remove').onclick = () => {
+    row.remove();
+    if (!el('ingredients').children.length) addIngredient();
+    previewRecipe();
+  };
+  el('ingredients').append(row);
+  previewRecipe();
+}
+function readRecipe() {
+  const items = Array.from(el('ingredients').children, row => {
+    const values = {};
+    for (const input of row.querySelectorAll('input,select')) values[input.name] = input.value;
+    return values;
+  });
+  return {id:editing ?? crypto.randomUUID(), name:recipeForm.elements.name.value.trim(),
+    expected:cents(recipeForm.elements.expected.value), yield:Number(recipeForm.elements.yield.value), items};
+}
+function batchCost(recipe) {
+  return recipe.items.reduce((sum, item) => sum + cents(item.paid) * Number(item.used) / Number(item.bought), 0);
+}
+function previewRecipe() {
+  const recipe = readRecipe();
+  const complete = recipe.yield > 0 && recipe.items.every(item => item.paid !== '' && Number(item.bought) > 0 && Number(item.used) > 0);
+  el('recipeEstimate').textContent = complete
+    ? 'Lote: ' + money(batchCost(recipe)) + ' · Por trufa: ' + (batchCost(recipe)/recipe.yield/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:2,maximumFractionDigits:4})
+    : 'Preencha as quantidades e o rendimento para calcular o custo.';
+}
+function resetRecipe() {
+  editing = null;
+  recipeForm.reset();
+  el('cancel').hidden = true;
+  el('ingredients').replaceChildren();
+  addIngredient({item:'Chocolate'});
+  addIngredient({item:'Recheio'});
+}
+function saleValues() {
+  const recipe = state.recipes.find(item => item.id === recipeSelect.value);
+  if (!recipe) return null;
+  const quantity = Number(saleForm.elements.quantity.value);
+  return {recipe, quantity, revenue:quantity * cents(saleForm.elements.price.value),
+    cost:Math.round(batchCost(recipe) * quantity / recipe.yield)};
+}
+function previewSale() {
+  const values = saleValues();
+  el('register').disabled = !values;
+  el('saleEstimate').textContent = !values ? 'Cadastre uma receita para começar.'
+    : values.quantity ? 'Custo: '+money(values.cost)+' · Lucro: '+money(values.revenue-values.cost)
+    : 'Informe a quantidade e o preço por trufa.';
+}
+function forecast(profit) {
+  const recipe = state.recipes.find(r => r.id === el('flavor').value);
+  const unit = recipe ? batchCost(recipe)/recipe.yield : null;
+  const margin = recipe?.expected ? recipe.expected-unit : null;
+  const remaining = Math.max(0,target-profit);
+  const fineMoney = n => (n/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:4});
+  el('oneCost').textContent = unit === null ? '—' : fineMoney(unit);
+  el('onePrice').textContent = recipe?.expected ? money(recipe.expected) : '—';
+  el('oneProfit').textContent = margin === null ? '—' : fineMoney(margin);
+  el('needed').textContent = remaining === 0 ? '0' : margin > 0 ? Math.ceil(Number((remaining/margin).toPrecision(14))).toLocaleString('pt-BR') : '—';
+  el('forecastNote').textContent = !recipe ? 'Abra Receitas e preços para cadastrar seu primeiro sabor.' : margin === null ? 'Cadastre o preço previsto para este sabor.' : margin <= 0 ? 'Este preço não gera lucro para avançar na meta.' : 'Projeção para as próximas vendas deste sabor, usando o preço previsto e o lucro já registrado.';
+}
+function render() {
+  const totals = state.sales.reduce((sum,sale) => {
+    sum.revenue += sale.revenue;
+    sum.cost += sale.cost;
+    if (sale.date === today) sum.units += sale.quantity;
+    return sum;
+  },{revenue:0,cost:0,units:0});
+  const profit = totals.revenue - totals.cost;
+  el('earned').textContent = money(profit) + ' acumulados';
+  el('percent').textContent = (profit/target).toLocaleString('pt-BR',{style:'percent',maximumFractionDigits:2});
+  el('progress').value = Math.min(target,Math.max(0,profit));
+  el('remaining').textContent = profit >= target ? 'Meta atingida!' : 'Faltam '+money(target-profit);
+  el('revenue').textContent = money(totals.revenue);
+  el('cost').textContent = money(totals.cost);
+  el('units').textContent = totals.units.toLocaleString('pt-BR');
+  const flavor = el('flavor');
+  const previousFlavor = flavor.value;
+  flavor.replaceChildren(...state.recipes.map(r=>new Option(r.name,r.id)));
+  if (state.recipes.some(r=>r.id===previousFlavor)) flavor.value = previousFlavor;
+  forecast(profit);
+  flavor.onchange = () => forecast(profit);
+  const selected = recipeSelect.value;
+  recipeSelect.replaceChildren(new Option('Selecione o sabor',''));
+  el('recipes').replaceChildren();
+  for (const recipe of state.recipes) {
+    recipeSelect.add(new Option(recipe.name,recipe.id));
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'secondary';
+    button.textContent = 'Editar ' + recipe.name;
+    button.onclick = () => {
+      editing = recipe.id;
+      recipeForm.elements.name.value = recipe.name;
+      recipeForm.elements.expected.value = recipe.expected ? recipe.expected/100 : "";
+      recipeForm.elements.yield.value = recipe.yield;
+      el('ingredients').replaceChildren();
+      recipe.items.forEach(addIngredient);
+      el('cancel').hidden = false;
+      recipeForm.elements.name.focus();
+    };
+    el('recipes').append(button, ' ');
+  }
+  recipeSelect.value = state.recipes.some(recipe => recipe.id === selected) ? selected : state.recipes[0]?.id ?? '';
+  previewSale();
+  const history = el('history');
+  history.replaceChildren();
+  if (!state.sales.length) {
+    const cell = history.insertRow().insertCell();
+    cell.colSpan = 7;
+    cell.textContent = 'Nenhuma venda registrada.';
+  }
+  for (const sale of [...state.sales].reverse().sort((a,b)=>b.date.localeCompare(a.date))) {
+    const row = history.insertRow();
+    for (const value of [sale.date.split('-').reverse().join('/'),sale.name,sale.quantity,money(sale.revenue),money(sale.cost),money(sale.revenue-sale.cost)]) {
+      row.insertCell().textContent = value;
+    }
+    const remove = document.createElement('button');
+    remove.className = 'danger';
+    remove.textContent = 'Excluir';
+    remove.setAttribute('aria-label','Excluir venda de '+sale.name+' de '+sale.date);
+    remove.onclick = () => {
+      if (confirm('Excluir este registro de venda?')) save({...state,sales:state.sales.filter(item=>item.id!==sale.id)},'Venda excluída.');
+    };
+    row.insertCell().append(remove);
+  }
+}
+el('add').onclick = () => addIngredient();
+el('cancel').onclick = resetRecipe;
+recipeForm.addEventListener('input',previewRecipe);
+saleForm.addEventListener('input',previewSale);
+recipeForm.onsubmit = event => {
+  event.preventDefault();
+  const recipe = readRecipe();
+  if (!recipe.name || recipe.items.some(item=>!item.item.trim())) {
+    el('status').textContent = 'Preencha o nome do sabor e de todos os ingredientes.';
+    return;
+  }
+  const recipes = editing ? state.recipes.map(item=>item.id===editing?recipe:item) : [...state.recipes,recipe];
+  if (save({...state,recipes},'Receita salva.')) {
+    recipeSelect.value = recipe.id;
+    el('flavor').value = recipe.id;
+    el('flavor').dispatchEvent(new Event('change'));
+    saleForm.elements.price.value = recipe.expected/100;
+    previewSale();
+    resetRecipe();
+  }
+};
+saleForm.onsubmit = event => {
+  event.preventDefault();
+  const values = saleValues();
+  if (!values) return;
+  const sale = {id:crypto.randomUUID(),date:saleForm.elements.date.value,name:values.recipe.name,
+    quantity:values.quantity,revenue:values.revenue,cost:values.cost};
+  if (save({...state,sales:[...state.sales,sale]},'Venda registrada.')) {
+    saleForm.elements.quantity.value = '';
+    previewSale();
+  }
+};
+function suggestPrice() {
+  const r = state.recipes.find(r => r.id === recipeSelect.value);
+  saleForm.elements.price.value = r?.expected ? r.expected/100 : '';
+  previewSale();
+}
+recipeSelect.addEventListener('change',suggestPrice);
+resetRecipe();
+updateDate();
+suggestPrice();
+setInterval(updateDate, 15000);
+</script>
